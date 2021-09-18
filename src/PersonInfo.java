@@ -1,5 +1,6 @@
 public class PersonInfo {
     private String name;
+    private String surname;
     private String address;
     private String email;
     private String city;
@@ -7,11 +8,12 @@ public class PersonInfo {
     private String state;
     private String phone;
 
-    public PersonInfo(String name,String address,String email,String city,String state,int zip,String phone){
+    public PersonInfo(String name,String surname,String address,String email,String city,String state,int zip,String phone){
         this.address=address;
         this.city=city;
         this.email=email;
         this.name=name;
+        this.surname=surname;
         this.state=state;
         this.zip=zip;
         this.phone=phone;
@@ -23,6 +25,14 @@ public class PersonInfo {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getSurname() {
+        return surname;
+    }
+
+    public void setSurname(String surname) {
+        this.surname = surname;
     }
 
     public String getAddress() {
