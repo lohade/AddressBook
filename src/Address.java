@@ -12,7 +12,7 @@ public class Address {
 
     void askUser(){
             System.out.println("Enter choice to do operation like:");
-            System.out.println("1:add  more person details:\n2:Display whole address book:\n3:Remove any details:\n");
+            System.out.println("1:add  more person details:\n2:Display whole address book:\n");
             int option = scanner.nextInt();
             switch (option)
             {
