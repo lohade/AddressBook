@@ -12,7 +12,7 @@ public class Address {
 
     void askUser(){
             System.out.println("Enter choice to do operation like:");
-            System.out.println("1:add  more person details:\n2:Display whole address book:\n");
+            System.out.println("1:adding details:\n2:Display whole address book:\n3:for edit the details:\n");
             int option = scanner.nextInt();
             switch (option)
             {
@@ -40,12 +40,12 @@ public class Address {
                     }
                     askUser();
                     break;
-                /*
+
                 case 3:
-                    Address.remove();
+                    edit();
                     askUser();
                     break;
-                */
+
 
 
 
@@ -91,6 +91,69 @@ public class Address {
         System.out.println("zip:" +personInfo.getZip());
         System.out.println("phone:" +personInfo.getPhone());
         System.out.println("-----------------------------------------------------");
+    }
+
+    public  static void edit()
+    {
+        System.out.println("enter email to edit information:");
+        String email=scanner.next();
+        for(int i=0;i< list.size();i++)
+        {
+            if(list.get(i).getEmail().equals(email))
+            {
+                System.out.println("1:edit first name:\n 2:edit surname:\n 3:edit email:\n 4:edit address:\n 5:edit city:\n 6:edit state:\n 7:edit zip:\n 8:edit phone:\n");
+                int edit_option = scanner.nextInt();
+                switch (edit_option) {
+                    case 1:
+
+                        System.out.println("Enter the firstname to edit::");
+                        String edit_name = scanner.next();
+                        list.get(i).setName(edit_name);
+                        break;
+
+                    case 2:
+
+                        System.out.println("Enter the surname to edit:");
+                        String edit_surname = scanner.next();
+                        list.get(i).setSurname(edit_surname);
+                        break;
+
+                    case 3:
+                        System.out.println("enter email to edit:");
+                        String edit_email=scanner.next();
+                        list.get(i).setEmail(edit_email);
+                        break;
+
+                    case 4:
+                        System.out.println("enter address to edit:");
+                        String edit_address=scanner.next();
+                        list.get(i).setAddress(edit_address);
+                        break;
+                    case 5:
+                        System.out.println("enter city to edit:");
+                        String edit_city=scanner.next();
+                        list.get(i).setEmail(edit_city);
+                        break;
+                    case 6:
+                        System.out.println("enter state to edit:");
+                        String edit_state=scanner.next();
+                        list.get(i).setState(edit_state);
+                        break;
+                    case 7:
+                        System.out.println("enter zip to edit:");
+                        int edit_zip=scanner.nextInt();
+                        list.get(i).setZip(edit_zip);
+                        break;
+                    case 8:
+                        System.out.println("enter phone to edit:");
+                        String edit_phone=scanner.next();
+                        list.get(i).setPhone(edit_phone);
+                        break;
+
+                }
+            }
+
+        }
     }
 
     /*
