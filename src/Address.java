@@ -12,7 +12,7 @@ public class Address {
 
     void askUser(){
             System.out.println("Enter choice to do operation like:");
-            System.out.println("1:adding details:\n2:Display whole address book:\n3:for edit the details:\n");
+            System.out.println("1:adding details:\n2:Display whole address book:\n3:for edit the details:\n4:to remove data:");
             int option = scanner.nextInt();
             switch (option)
             {
@@ -46,9 +46,10 @@ public class Address {
                     askUser();
                     break;
 
-
-
-
+                case 4:
+                    remove();
+                    askUser();
+                    break;
             }
     }
 
@@ -101,7 +102,7 @@ public class Address {
         {
             if(list.get(i).getEmail().equals(email))
             {
-                System.out.println("1:edit first name:\n 2:edit surname:\n 3:edit email:\n 4:edit address:\n 5:edit city:\n 6:edit state:\n 7:edit zip:\n 8:edit phone:\n");
+                System.out.println("1:edit first name:\n2:edit surname:\n3:edit email:\n4:edit address:\n5:edit city:\n6:edit state:\n7:edit zip:\n8:edit phone:\n");
                 int edit_option = scanner.nextInt();
                 switch (edit_option) {
                     case 1:
@@ -156,8 +157,7 @@ public class Address {
         }
     }
 
-    /*
-    private static void remove()
+    public static void remove()
     {
         System.out.println("enter email to be remove from address book:");
         String email=scanner.next();
@@ -169,7 +169,7 @@ public class Address {
                 list.remove(personInfo);
             }
         }
-    }*/
+    }
 
 
 
