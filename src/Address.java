@@ -11,30 +11,30 @@ public class Address {
     }
 
     void askUser(){
+        boolean status=true;
+        do {
             System.out.println("Enter choice to do operation like:");
-            System.out.println("1:adding details:\n2:Display whole address book:\n3:for edit the details:\n4:to remove data:");
+            System.out.println("1:adding details:\n2:Display whole address book:\n3:for edit the details:\n4:to remove data:\n5:Exit");
             int option = scanner.nextInt();
-            switch (option)
-            {
+            switch (option) {
                 case 1:
-                    boolean isAdd=true;
-                    while(isAdd) {
+                    boolean isAdd = true;
+                    while (isAdd) {
                         PersonInfo personInfo = Address.addPerson();
                         list.add(personInfo);
                         System.out.println("if you want add more details please enter 1 else 0:");
-                        int num= scanner.nextInt();
-                        if(num==1)
-                            isAdd=true;
+                        int num = scanner.nextInt();
+                        if (num == 1)
+                            isAdd = true;
                         else
-                            isAdd=false;
+                            isAdd = false;
 
-                        }
+                    }
                     askUser();
                     break;
 
                 case 2:
-                    for(int i=0;i< list.size();i++)
-                    {
+                    for (int i = 0; i < list.size(); i++) {
                         Address.display(list.get(i));
 
                     }
@@ -50,7 +50,13 @@ public class Address {
                     remove();
                     askUser();
                     break;
+
+                case 5:
+                    status=false;
+                    break;
+
             }
+        }while(status);
     }
 
     private static PersonInfo addPerson(){
@@ -170,8 +176,5 @@ public class Address {
             }
         }
     }
-
-
-
 
 }
