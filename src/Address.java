@@ -1,110 +1,65 @@
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.HashMap;
+
 
 public class Address {
-    private static final ArrayList<PersonInfo>list=new ArrayList<>();
-    private static final Scanner scanner=new Scanner(System.in);
+      ArrayList<PersonInfo>list=new ArrayList<>();
+      static Scanner scanner=new Scanner(System.in);
+      static HashMap<String,ArrayList<PersonInfo>> hashMap=new HashMap<>();
+      static Address address=new Address();
 
-    public static void main(String[] args) {
-        Address addressBook = new Address();
-        addressBook.askUser();
-    }
 
-    void askUser(){
-        boolean status=true;
-        do {
-            System.out.println("Enter choice to do operation like:");
-            System.out.println("1:adding details:\n2:Display whole address book:\n3:for edit the details:\n4:to remove data:\n5:Exit");
-            int option = scanner.nextInt();
-            switch (option) {
-                case 1:
-                    boolean isAdd = true;
-                    while (isAdd) {
-                        PersonInfo personInfo = Address.addPerson();
-                        list.add(personInfo);
-                        System.out.println("if you want add more details please enter 1 else 0:");
-                        int num = scanner.nextInt();
-                        if (num == 1)
-                            isAdd = true;
-                        else
-                            isAdd = false;
-
-                    }
-                    askUser();
-                    break;
-
-                case 2:
-                    for (int i = 0; i < list.size(); i++) {
-                        Address.display(list.get(i));
-
-                    }
-                    askUser();
-                    break;
-
-                case 3:
-                    edit();
-                    askUser();
-                    break;
-
-                case 4:
-                    remove();
-                    askUser();
-                    break;
-
-                case 5:
-                    status=false;
-                    break;
-
-            }
-        }while(status);
-    }
-
-    private static PersonInfo addPerson(){
+     public void  addPerson(){
+        PersonInfo personInfo=new PersonInfo();
         System.out.println("Enter name:");
         String name = scanner.next();
+        personInfo.setName(name);
 
         System.out.println("enter surname:");
         String surname= scanner.next();
+        personInfo.setSurname(surname);
 
         System.out.println("Enter email:");
         String email = scanner.next();
+        personInfo.setEmail(email);
 
         System.out.println("Enter address:");
         String address = scanner.next();
+        personInfo.setAddress(address);
 
         System.out.println("Enter phone no:");
         String phone = scanner.next();
+        personInfo.setPhone(phone);
 
         System.out.println("enter zip:");
-        int zip= scanner.nextInt();
+        String zip= scanner.next();
+        personInfo.setZip(zip);
 
         System.out.println("Enter state:");
         String state = scanner.next();
+        personInfo.setState(state);
 
         System.out.println("Enter city:");
         String city = scanner.next();
+        personInfo.setCity(city);
 
-        PersonInfo personInfo = new PersonInfo(name,surname,address,email,city,state,zip,phone);
-        return personInfo;
+        list.add(personInfo);
+         System.out.println(list);
+
+
     }
 
-    private static void display(PersonInfo personInfo){
-        System.out.println("Name : "+ personInfo.getName());
-        System.out.println("Surname : "+ personInfo.getSurname());
-        System.out.println("Email : "+ personInfo.getEmail());
-        System.out.println("Address : "+ personInfo.getAddress());
-        System.out.println("city :" +personInfo.getCity());
-        System.out.println("state :" +personInfo.getState());
-        System.out.println("zip:" +personInfo.getZip());
-        System.out.println("phone:" +personInfo.getPhone());
-        System.out.println("-----------------------------------------------------");
+    public void display(){
+        System.out.println(list);
+
     }
 
-    public  static void edit()
+    public  void edit()
     {
         System.out.println("enter email to edit information:");
         String email=scanner.next();
-        for(int i=0;i< list.size();i++)
+         for (int i=0;i< list.size();i++)
         {
             if(list.get(i).getEmail().equals(email))
             {
@@ -148,7 +103,7 @@ public class Address {
                         break;
                     case 7:
                         System.out.println("enter zip to edit:");
-                        int edit_zip=scanner.nextInt();
+                        String edit_zip=scanner.next();
                         list.get(i).setZip(edit_zip);
                         break;
                     case 8:
@@ -159,11 +114,12 @@ public class Address {
 
                 }
             }
-
+            else
+                System.out.println("enter valid mail:");
         }
     }
 
-    public static void remove()
+    public void remove()
     {
         System.out.println("enter email to be remove from address book:");
         String email=scanner.next();
@@ -174,7 +130,140 @@ public class Address {
             {
                 list.remove(personInfo);
             }
+            else{
+                System.out.println("enter valid email ");
+            }
         }
     }
+
+    void askUser() {
+         boolean ch=true;
+        while (ch) {
+            System.out.println("enter choice for operation:");
+            System.out.println("1:create address book:\n2:Edit address book:\n3:Display all:\n4:exit");
+            int choose = scanner.nextInt();
+
+            switch (choose) {
+                case 1:
+                    System.out.println("enter name of book:");
+                    String name_book = scanner.next();
+
+                    if (hashMap.containsKey(name_book)) {
+                        System.out.println("name is already exist");
+                        break;
+                    }
+                    ArrayList<PersonInfo> new_book = new ArrayList<>();
+                    list = new_book;
+                    boolean status = true;
+                    while (status) {
+                        do {
+                            System.out.println("Enter choice to do operation like:");
+                            System.out.println("1:adding details:\n2:Display whole address:\n3:for edit the details:\n4:to remove data:\n5:Exit");
+                            int option = scanner.nextInt();
+                            switch (option) {
+                                case 1:
+                                    address.addPerson();
+                                    askUser();
+                                    break;
+
+                                case 2:
+                                    address.display();
+                                    askUser();
+                                    break;
+
+                                case 3:
+                                    address.edit();
+                                    askUser();
+                                    break;
+
+                                case 4:
+                                    address.remove();
+                                    askUser();
+                                    break;
+
+                                case 5:
+                                    status = false;
+                                    break;
+
+                            }
+                            hashMap.put(name_book, list);
+                            System.out.println(hashMap);
+                        } while (status);
+                    }
+                    break;
+                case 2:
+                    System.out.println("enter address book name for edit:");
+                    String edit_book=scanner.next();
+
+                    if(hashMap.containsKey(edit_book)){
+                        ArrayList<PersonInfo> old_book=new ArrayList<>();
+                        list=old_book;
+                        list= hashMap.get(old_book);
+                        boolean status1=true;
+                        while (status1){
+                            do {
+                                System.out.println("Enter choice to do operation like:");
+                                System.out.println("1:adding details:\n2:Display whole address:\n3:for edit the details:\n4:to remove data:\n5:Exit");
+                                int option = scanner.nextInt();
+                                switch (option) {
+                                    case 1:
+                                        address.addPerson();
+                                        askUser();
+                                        break;
+
+                                    case 2:
+                                        address.display();
+                                        askUser();
+                                        break;
+
+                                    case 3:
+                                        address.edit();
+                                        askUser();
+                                        break;
+
+                                    case 4:
+                                        address.remove();
+                                        askUser();
+                                        break;
+
+                                    case 5:
+                                        status1 = false;
+                                        break;
+
+                                }
+                                hashMap.put(edit_book,list);
+                                System.out.println(hashMap);
+                            } while (status1);
+
+                        }
+                    }
+                    else
+                        System.out.println("enter valid name book");
+                    break;
+
+                case 3:
+                    System.out.println(hashMap);
+                    break;
+
+                case 4:
+                    ch=false;
+                    break;
+            }
+        }
+    }
+    public static void main(String[] args) {
+
+        Address addressBook = new Address();
+        addressBook.askUser();
+    }
+
+
+
+
+
+
+
+
+
 
 }

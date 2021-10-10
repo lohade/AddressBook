@@ -1,23 +1,13 @@
-public class PersonInfo {
+ class PersonInfo {
     private String name;
     private String surname;
     private String address;
     private String email;
     private String city;
-    private int zip;
+    private String zip;
     private String state;
     private String phone;
 
-    public PersonInfo(String name,String surname,String address,String email,String city,String state,int zip,String phone){
-        this.address=address;
-        this.city=city;
-        this.email=email;
-        this.name=name;
-        this.surname=surname;
-        this.state=state;
-        this.zip=zip;
-        this.phone=phone;
-    }
 
     public String getName() {
         return name;
@@ -59,11 +49,11 @@ public class PersonInfo {
         this.city = city;
     }
 
-    public int getZip() {
+    public String getZip() {
         return zip;
     }
 
-    public void setZip(int zip) {
+    public void setZip(String zip) {
         this.zip = zip;
     }
 
@@ -82,5 +72,14 @@ public class PersonInfo {
     public void setPhone(String phone) {
         this.phone = phone;
     }
+
+    public String toString(){
+        return ("First name: " + name + "\n Last name: " + surname + "\n Address: " + address + "\n city: " + city
+                + "\n state: " +state + "\n email: " + email + "\n zip: " + zip + "\n phone number:" + phone + "");
+
+
+    }
+
+
 
 }
