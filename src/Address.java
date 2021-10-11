@@ -32,7 +32,7 @@ public class Address {
         String phone = scanner.next();
         personInfo.setPhone(phone);
 
-        System.out.println("enter zip:");
+            System.out.println("enter zip:");
         String zip= scanner.next();
         personInfo.setZip(zip);
 
@@ -45,10 +45,8 @@ public class Address {
         personInfo.setCity(city);
 
         list.add(personInfo);
-         System.out.println(list);
-
-
-    }
+         //System.out.println(list);
+     }
 
     public void display(){
         System.out.println(list);
@@ -59,11 +57,11 @@ public class Address {
     {
         System.out.println("enter email to edit information:");
         String email=scanner.next();
-         for (int i=0;i< list.size();i++)
-        {
+         for (int i=0;i< list.size();i++) {
             if(list.get(i).getEmail().equals(email))
             {
-                System.out.println("1:edit first name:\n2:edit surname:\n3:edit email:\n4:edit address:\n5:edit city:\n6:edit state:\n7:edit zip:\n8:edit phone:\n");
+                System.out.println("enter operation to edit:");
+                System.out.println("\n1:edit first name:\n2:edit surname:\n3:edit email:\n4:edit address:\n5:edit city:\n6:edit state:\n7:edit zip:\n8:edit phone:\n");
                 int edit_option = scanner.nextInt();
                 switch (edit_option) {
                     case 1:
@@ -111,7 +109,6 @@ public class Address {
                         String edit_phone=scanner.next();
                         list.get(i).setPhone(edit_phone);
                         break;
-
                 }
             }
             else
@@ -129,6 +126,7 @@ public class Address {
             if(email.equals(personInfo.getEmail()))
             {
                 list.remove(personInfo);
+                System.out.println(list);
             }
             else{
                 System.out.println("enter valid email ");
@@ -136,11 +134,47 @@ public class Address {
         }
     }
 
-    void askUser() {
-         boolean ch=true;
-        while (ch) {
+    public void  duplicate(String email){
+
+         for(int j=0;j< list.size();j++) {
+             String email_contact = list.get(j).getEmail();
+             if (email.equals(email_contact)) {
+                 System.out.println("email is already available");
+             }
+             else{
+                 System.out.println("enter details");
+                 break;
+             }
+         }
+     }
+
+     public void searchCity(String search_city){
+         System.out.println("enter name of book to search data");
+         String search_book=scanner.next();
+         if (hashMap.containsKey(search_book)) {
+             System.out.println("enter city name to search");
+             String city_name=scanner.next();
+             for (int k=0;k< list.size();k++) {
+                     String city=list.get(k).getCity();
+                     if (search_city.equals(city)){
+                         System.out.println(hashMap);
+                     }
+                     else {
+                         System.out.println("enter proper city:");
+                     }
+                 }
+         }
+             else{
+                 System.out.println("city not found");
+             }
+
+     }
+
+    public void askUser() {
+
+         while (true){
             System.out.println("enter choice for operation:");
-            System.out.println("1:create address book:\n2:Edit address book:\n3:Display all:\n4:exit");
+            System.out.println("1:create address book:\n2:Edit address book:\n3:display all:\n4:Search city in particular book:\n5:exit");
             int choose = scanner.nextInt();
 
             switch (choose) {
@@ -154,43 +188,49 @@ public class Address {
                     }
                     ArrayList<PersonInfo> new_book = new ArrayList<>();
                     list = new_book;
-                    boolean status = true;
-                    while (status) {
-                        do {
-                            System.out.println("Enter choice to do operation like:");
-                            System.out.println("1:adding details:\n2:Display whole address:\n3:for edit the details:\n4:to remove data:\n5:Exit");
-                            int option = scanner.nextInt();
-                            switch (option) {
-                                case 1:
-                                    address.addPerson();
-                                    askUser();
-                                    break;
+                    while (true) {
+                        System.out.println("Enter choice to do operation like:");
+                        System.out.println("1:adding details:\n2:Display whole address:\n3:for edit the details:\n4:to remove data:\n5:duplicate entry:\n6:exit");
+                        int option = scanner.nextInt();
 
-                                case 2:
-                                    address.display();
-                                    askUser();
-                                    break;
+                        if (option == 6) {
+                            System.out.println("exit ");
+                            break;
+                        }
+                        switch (option) {
+                            case 1:
+                                address.addPerson();
+                                break;
 
-                                case 3:
-                                    address.edit();
-                                    askUser();
-                                    break;
+                            case 2:
+                                address.display();
+                                break;
 
-                                case 4:
-                                    address.remove();
-                                    askUser();
-                                    break;
+                            case 3:
+                                address.edit();
+                                break;
 
-                                case 5:
-                                    status = false;
-                                    break;
+                            case 4:
+                                address.remove();
+                                break;
 
-                            }
-                            hashMap.put(name_book, list);
-                            System.out.println(hashMap);
-                        } while (status);
+                            case 5:
+                                System.out.println("enter mail to duplicate:");
+                                String new_mail = scanner.next();
+                                address.duplicate(new_mail);
+                                break;
+
+
+                            default:
+                                System.out.println("choose valid option");
+                                break;
+
+                        }
+                        hashMap.put(name_book, list);
+                        System.out.println(hashMap);
                     }
                     break;
+
                 case 2:
                     System.out.println("enter address book name for edit:");
                     String edit_book=scanner.next();
@@ -198,32 +238,28 @@ public class Address {
                     if(hashMap.containsKey(edit_book)){
                         ArrayList<PersonInfo> old_book=new ArrayList<>();
                         list=old_book;
-                        list= hashMap.get(old_book);
+                        list= hashMap.get(edit_book);
                         boolean status1=true;
-                        while (status1){
+
                             do {
                                 System.out.println("Enter choice to do operation like:");
-                                System.out.println("1:adding details:\n2:Display whole address:\n3:for edit the details:\n4:to remove data:\n5:Exit");
+                                System.out.println("1:adding details:\n2:Display whole address:\n3:for edit the details:\n4:Search particular city in particular book:\n5:Exit");
                                 int option = scanner.nextInt();
                                 switch (option) {
                                     case 1:
                                         address.addPerson();
-                                        askUser();
                                         break;
 
                                     case 2:
                                         address.display();
-                                        askUser();
                                         break;
 
                                     case 3:
                                         address.edit();
-                                        askUser();
                                         break;
 
                                     case 4:
                                         address.remove();
-                                        askUser();
                                         break;
 
                                     case 5:
@@ -234,8 +270,6 @@ public class Address {
                                 hashMap.put(edit_book,list);
                                 System.out.println(hashMap);
                             } while (status1);
-
-                        }
                     }
                     else
                         System.out.println("enter valid name book");
@@ -246,7 +280,13 @@ public class Address {
                     break;
 
                 case 4:
-                    ch=false;
+                    System.out.println("enter city to search");
+                    String city_search=scanner.next();
+                    searchCity(city_search);
+                    break;
+
+                default:
+                    System.out.println("exit address book:");
                     break;
             }
         }
@@ -254,16 +294,7 @@ public class Address {
     public static void main(String[] args) {
 
         Address addressBook = new Address();
-        addressBook.askUser();
+        address.askUser();
     }
-
-
-
-
-
-
-
-
-
 
 }
