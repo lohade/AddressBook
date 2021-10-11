@@ -152,8 +152,6 @@ public class Address {
          System.out.println("enter name of book to search data");
          String search_book=scanner.next();
          if (hashMap.containsKey(search_book)) {
-             System.out.println("enter city name to search");
-             String city_name=scanner.next();
              for (int k=0;k< list.size();k++) {
                      String city=list.get(k).getCity();
                      if (search_city.equals(city)){
@@ -163,18 +161,40 @@ public class Address {
                          System.out.println("enter proper city:");
                      }
                  }
-         }
-             else{
+         }else{
                  System.out.println("city not found");
              }
+     }
 
+     public void searchNumber(String state_search){
+         System.out.println("enter book to search:");
+         String book_search=scanner.next();
+         if(hashMap.containsKey(book_search)){
+
+             for(int k=0;k< list.size();k++){
+                 String find_state=list.get(k).getState();
+                 if(state_search.equals(find_state)){
+                     for (int j=0;j< list.size();j++){
+                         String city1=list.get(j).getCity();
+                         System.out.println("enter city to search");
+                         String city2=scanner.next();
+                         if(city1.equals(city2)){
+                             System.out.println(hashMap);
+                         }
+                         else System.out.println("enter city correct");
+                     }
+                 }
+                 else System.out.println("enter state correctly");
+             }
+         }
+         else System.out.println("enter book name correctly");
      }
 
     public void askUser() {
-
-         while (true){
+         boolean view=true;
+         do{
             System.out.println("enter choice for operation:");
-            System.out.println("1:create address book:\n2:Edit address book:\n3:display all:\n4:Search city in particular book:\n5:exit");
+            System.out.println("1:create address book:\n2:Edit address book:\n3:display all:\n4:Search city in particular book:\n5:find number from particular city and state:\n6:exit");
             int choose = scanner.nextInt();
 
             switch (choose) {
@@ -285,16 +305,23 @@ public class Address {
                     searchCity(city_search);
                     break;
 
-                default:
+                case 5:
+                    System.out.println("state");
+                    String state_search=scanner.next();
+                    searchNumber(state_search);
+                    break;
+
+                case 6:
+                    view=false;
                     System.out.println("exit address book:");
                     break;
             }
-        }
+        }while(view);
     }
+
+
     public static void main(String[] args) {
-
-        Address addressBook = new Address();
-        address.askUser();
+         System.out.println("Welcome to Address book System");
+         address.askUser();
     }
-
 }
