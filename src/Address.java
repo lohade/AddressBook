@@ -1,6 +1,8 @@
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.Scanner;
 import java.util.HashMap;
+
 
 
 public class Address {
@@ -190,11 +192,25 @@ public class Address {
          else System.out.println("enter book name correctly");
      }
 
+     public void count(String city){
+         System.out.println("enter book to search:");
+         String book_search=scanner.next();
+         if(hashMap.containsKey(book_search)) {
+             for (int j=0;j< list.size();j++) {
+                 System.out.println("enter city name:");
+                 String city_name = scanner.next();
+                 if(list.get(j).getCity().equals(city)) {
+                     System.out.println(hashMap.size());
+                 }
+             }
+         }
+     }
+
     public void askUser() {
          boolean view=true;
          do{
             System.out.println("enter choice for operation:");
-            System.out.println("1:create address book:\n2:Edit address book:\n3:display all:\n4:Search city in particular book:\n5:find number from particular city and state:\n6:exit");
+            System.out.println("1:create address book:\n2:Edit address book:\n3:display all:\n4:Search city in particular book:\n5:find number of records from particular city:\n6:exit");
             int choose = scanner.nextInt();
 
             switch (choose) {
@@ -305,10 +321,16 @@ public class Address {
                     searchCity(city_search);
                     break;
 
-                case 5:
+                case 7:
                     System.out.println("state");
                     String state_search=scanner.next();
                     searchNumber(state_search);
+                    break;
+
+                case 5:
+                    System.out.println("find city");
+                    String city1=scanner.next();
+                    count(city1);
                     break;
 
                 case 6:
