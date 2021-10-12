@@ -1,15 +1,32 @@
-import java.util.ArrayList;
-import java.util.Map;
-import java.util.Scanner;
-import java.util.HashMap;
-
+import java.util.*;
+import java.util.stream.Collectors;
 
 
 public class Address {
-      ArrayList<PersonInfo>list=new ArrayList<>();
-      static Scanner scanner=new Scanner(System.in);
-      static HashMap<String,ArrayList<PersonInfo>> hashMap=new HashMap<>();
+      public ArrayList<PersonInfo>contactlist=new ArrayList<>();
+      public static Scanner scanner=new Scanner(System.in);
+      public static HashMap<String,ArrayList<PersonInfo>> hashMap=new HashMap<>();
+      public static HashMap<String,PersonInfo> cityHashmap=new HashMap<>();
       static Address address=new Address();
+
+      public boolean addContact(PersonInfo details){
+          List<PersonInfo> checkByName=searchByName(details.getName());
+          for (PersonInfo name:checkByName)
+              if (name.equals(details))
+                  return false;
+          contactlist.add(details);
+          return true;
+      }
+
+      public List<PersonInfo> searchByName(String name){
+          return contactlist.stream().filter(person -> person.getName().equals(name)).collect(Collectors.toList());
+      }
+
+      public static void viewByCity(Map<String,PersonInfo> cityHashmap){
+          cityHashmap.entrySet().stream().forEach(n -> System.out.println(n.getKey() + "=" +n.getValue().toString()));
+      }
+
+
 
 
      public void  addPerson(){
@@ -46,21 +63,33 @@ public class Address {
         String city = scanner.next();
         personInfo.setCity(city);
 
-        list.add(personInfo);
-         //System.out.println(list);
+        //return new PersonInfo(name,surname,email,address,phone,zip,state,city);
+
+        contactlist.add(personInfo);
+        //System.out.println(list);
      }
 
-    public void display(){
-        System.out.println(list);
+     @Override
+    public String toString(){
+          if(contactlist.isEmpty())
+              return "no contact available";
+          String show=new String();
+          for(int i=0;i<contactlist.size();i++) {
+              show += " " + contactlist.get(i);
+          }
+          return show;
+
+
 
     }
+
 
     public  void edit()
     {
         System.out.println("enter email to edit information:");
         String email=scanner.next();
-         for (int i=0;i< list.size();i++) {
-            if(list.get(i).getEmail().equals(email))
+         for (int i=0;i< contactlist.size();i++) {
+            if(contactlist.get(i).getEmail().equals(email))
             {
                 System.out.println("enter operation to edit:");
                 System.out.println("\n1:edit first name:\n2:edit surname:\n3:edit email:\n4:edit address:\n5:edit city:\n6:edit state:\n7:edit zip:\n8:edit phone:\n");
@@ -70,46 +99,46 @@ public class Address {
 
                         System.out.println("Enter the firstname to edit::");
                         String edit_name = scanner.next();
-                        list.get(i).setName(edit_name);
+                        contactlist.get(i).setName(edit_name);
                         break;
 
                     case 2:
 
                         System.out.println("Enter the surname to edit:");
                         String edit_surname = scanner.next();
-                        list.get(i).setSurname(edit_surname);
+                        contactlist.get(i).setSurname(edit_surname);
                         break;
 
                     case 3:
                         System.out.println("enter email to edit:");
                         String edit_email=scanner.next();
-                        list.get(i).setEmail(edit_email);
+                        contactlist.get(i).setEmail(edit_email);
                         break;
 
                     case 4:
                         System.out.println("enter address to edit:");
                         String edit_address=scanner.next();
-                        list.get(i).setAddress(edit_address);
+                        contactlist.get(i).setAddress(edit_address);
                         break;
                     case 5:
                         System.out.println("enter city to edit:");
                         String edit_city=scanner.next();
-                        list.get(i).setEmail(edit_city);
+                        contactlist.get(i).setEmail(edit_city);
                         break;
                     case 6:
                         System.out.println("enter state to edit:");
                         String edit_state=scanner.next();
-                        list.get(i).setState(edit_state);
+                        contactlist.get(i).setState(edit_state);
                         break;
                     case 7:
                         System.out.println("enter zip to edit:");
                         String edit_zip=scanner.next();
-                        list.get(i).setZip(edit_zip);
+                        contactlist.get(i).setZip(edit_zip);
                         break;
                     case 8:
                         System.out.println("enter phone to edit:");
                         String edit_phone=scanner.next();
-                        list.get(i).setPhone(edit_phone);
+                        contactlist.get(i).setPhone(edit_phone);
                         break;
                 }
             }
@@ -122,13 +151,13 @@ public class Address {
     {
         System.out.println("enter email to be remove from address book:");
         String email=scanner.next();
-        for(int i=0;i<list.size();i++)
+        for(int i=0;i<contactlist.size();i++)
         {
-            PersonInfo personInfo= list.get(i);
+            PersonInfo personInfo= contactlist.get(i);
             if(email.equals(personInfo.getEmail()))
             {
-                list.remove(personInfo);
-                System.out.println(list);
+                contactlist.remove(personInfo);
+                System.out.println(contactlist);
             }
             else{
                 System.out.println("enter valid email ");
@@ -138,8 +167,8 @@ public class Address {
 
     public void  duplicate(String email){
 
-         for(int j=0;j< list.size();j++) {
-             String email_contact = list.get(j).getEmail();
+         for(int j=0;j<contactlist.size();j++) {
+             String email_contact = contactlist.get(j).getEmail();
              if (email.equals(email_contact)) {
                  System.out.println("email is already available");
              }
@@ -150,67 +179,35 @@ public class Address {
          }
      }
 
-     public void searchCity(String search_city){
-         System.out.println("enter name of book to search data");
-         String search_book=scanner.next();
-         if (hashMap.containsKey(search_book)) {
-             for (int k=0;k< list.size();k++) {
-                     String city=list.get(k).getCity();
-                     if (search_city.equals(city)){
-                         System.out.println(hashMap);
-                     }
-                     else {
-                         System.out.println("enter proper city:");
-                     }
-                 }
-         }else{
-                 System.out.println("city not found");
-             }
-     }
+     public void search() {
+         System.out.println("enter name to search:");
+         String name1= scanner.next();
+         contactlist.forEach(book ->searchByName(name1).forEach(System.out::println));
+      }
 
-     public void searchNumber(String state_search){
-         System.out.println("enter book to search:");
-         String book_search=scanner.next();
-         if(hashMap.containsKey(book_search)){
+      public void view(){
+          System.out.println("enter city to view:");
+          String city1= scanner.next();
+          contactlist.forEach(book ->viewByCity(cityHashmap));
+          System.out.println(contactlist);
+      }
+      public void count(){
+          Map<String,Long> countCity=contactlist.stream()
+                  .collect(Collectors.groupingBy(c -> c.getCity(),Collectors.counting()));
+         System.out.println(countCity + "\n");
 
-             for(int k=0;k< list.size();k++){
-                 String find_state=list.get(k).getState();
-                 if(state_search.equals(find_state)){
-                     for (int j=0;j< list.size();j++){
-                         String city1=list.get(j).getCity();
-                         System.out.println("enter city to search");
-                         String city2=scanner.next();
-                         if(city1.equals(city2)){
-                             System.out.println(hashMap);
-                         }
-                         else System.out.println("enter city correct");
-                     }
-                 }
-                 else System.out.println("enter state correctly");
-             }
-         }
-         else System.out.println("enter book name correctly");
-     }
+         Map<String,Long> countstate=contactlist.stream()
+                 .collect(Collectors.groupingBy(s ->s.getState(),Collectors.counting()));
+          System.out.println(countstate + "\n");
 
-     public void count(String city){
-         System.out.println("enter book to search:");
-         String book_search=scanner.next();
-         if(hashMap.containsKey(book_search)) {
-             for (int j=0;j< list.size();j++) {
-                 System.out.println("enter city name:");
-                 String city_name = scanner.next();
-                 if(list.get(j).getCity().equals(city)) {
-                     System.out.println(hashMap.size());
-                 }
-             }
-         }
+
      }
 
     public void askUser() {
          boolean view=true;
          do{
             System.out.println("enter choice for operation:");
-            System.out.println("1:create address book:\n2:Edit address book:\n3:display all:\n4:Search city in particular book:\n5:find number of records from particular city:\n6:exit");
+            System.out.println("1:create address book:\n2:Edit address book:\n3:display all:\n4:Search city in particular book:\n5:find number of records from particular city:\n6:Count person in city and state\n7:exit");
             int choose = scanner.nextInt();
 
             switch (choose) {
@@ -223,7 +220,7 @@ public class Address {
                         break;
                     }
                     ArrayList<PersonInfo> new_book = new ArrayList<>();
-                    list = new_book;
+                    contactlist = new_book;
                     while (true) {
                         System.out.println("Enter choice to do operation like:");
                         System.out.println("1:adding details:\n2:Display whole address:\n3:for edit the details:\n4:to remove data:\n5:duplicate entry:\n6:exit");
@@ -239,7 +236,7 @@ public class Address {
                                 break;
 
                             case 2:
-                                address.display();
+                                address.toString();
                                 break;
 
                             case 3:
@@ -262,7 +259,7 @@ public class Address {
                                 break;
 
                         }
-                        hashMap.put(name_book, list);
+                        hashMap.put(name_book, contactlist);
                         System.out.println(hashMap);
                     }
                     break;
@@ -273,8 +270,8 @@ public class Address {
 
                     if(hashMap.containsKey(edit_book)){
                         ArrayList<PersonInfo> old_book=new ArrayList<>();
-                        list=old_book;
-                        list= hashMap.get(edit_book);
+                        contactlist=old_book;
+                        contactlist= hashMap.get(edit_book);
                         boolean status1=true;
 
                             do {
@@ -287,7 +284,7 @@ public class Address {
                                         break;
 
                                     case 2:
-                                        address.display();
+                                        address.toString();
                                         break;
 
                                     case 3:
@@ -303,7 +300,7 @@ public class Address {
                                         break;
 
                                 }
-                                hashMap.put(edit_book,list);
+                                hashMap.put(edit_book,contactlist);
                                 System.out.println(hashMap);
                             } while (status1);
                     }
@@ -316,31 +313,29 @@ public class Address {
                     break;
 
                 case 4:
-                    System.out.println("enter city to search");
-                    String city_search=scanner.next();
-                    searchCity(city_search);
-                    break;
-
-                case 7:
-                    System.out.println("state");
-                    String state_search=scanner.next();
-                    searchNumber(state_search);
+                    search();
                     break;
 
                 case 5:
-                    System.out.println("find city");
-                    String city1=scanner.next();
-                    count(city1);
+                    address.view();
                     break;
 
                 case 6:
+                    System.out.println("find city");
+                    String city1=scanner.next();
+                    address.count();
+                    break;
+
+                case 7:
                     view=false;
+                    scanner.close();
                     System.out.println("exit address book:");
                     break;
+
+
             }
         }while(view);
     }
-
 
     public static void main(String[] args) {
          System.out.println("Welcome to Address book System");
