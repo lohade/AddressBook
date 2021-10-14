@@ -9,6 +9,8 @@ public class Address {
       public static HashMap<String,PersonInfo> cityHashmap=new HashMap<>();
       static Address address=new Address();
 
+
+
       public boolean addContact(PersonInfo details){
           List<PersonInfo> checkByName=searchByName(details.getName());
           for (PersonInfo name:checkByName)
@@ -18,17 +20,29 @@ public class Address {
           return true;
       }
 
+      /*
+      Create a class searchname in which use a java stream method for filter only name and store in list using lambda function
+      */
       public List<PersonInfo> searchByName(String name){
           return contactlist.stream().filter(person -> person.getName().equals(name)).collect(Collectors.toList());
       }
 
+      //create a method and use hashmap city ,store a string equal entry data get key value pair
       public static void viewByCity(Map<String,PersonInfo> cityHashmap){
           cityHashmap.entrySet().stream().forEach(n -> System.out.println(n.getKey() + "=" +n.getValue().toString()));
       }
 
 
 
+      public void sortByName(){
+          PersonInfo personInfo;
+          //Collections.sort(this.contactlist,(personInfo1,personInfo2) ->(personInfo1.getName().compareTo(personInfo2.getName())));
+          Collections.sort(this.contactlist,(Comparator.comparing(PersonInfo::getName)));
+      }
 
+
+
+     //function for adding person information
      public void  addPerson(){
         PersonInfo personInfo=new PersonInfo();
         System.out.println("Enter name:");
@@ -63,13 +77,14 @@ public class Address {
         String city = scanner.next();
         personInfo.setCity(city);
 
-        //return new PersonInfo(name,surname,email,address,phone,zip,state,city);
 
-        contactlist.add(personInfo);
-        //System.out.println(list);
+
+        contactlist.add(personInfo);//adding all details in contactlist array from personinfo
+
      }
 
-     @Override
+     //print function to print all data
+     @Override //override is used for override toString method from personinfo class
     public String toString(){
           if(contactlist.isEmpty())
               return "no contact available";
@@ -78,12 +93,11 @@ public class Address {
               show += " " + contactlist.get(i);
           }
           return show;
+      }
 
 
 
-    }
-
-
+    //edit function for editing data from hashmap
     public  void edit()
     {
         System.out.println("enter email to edit information:");
@@ -147,6 +161,8 @@ public class Address {
         }
     }
 
+    // it is delete function
+
     public void remove()
     {
         System.out.println("enter email to be remove from address book:");
@@ -179,18 +195,25 @@ public class Address {
          }
      }
 
+
+     //searching specific name from hashmap using searchbyname functon and print data
      public void search() {
          System.out.println("enter name to search:");
          String name1= scanner.next();
          contactlist.forEach(book ->searchByName(name1).forEach(System.out::println));
       }
 
+      //view a data from city
       public void view(){
           System.out.println("enter city to view:");
           String city1= scanner.next();
           contactlist.forEach(book ->viewByCity(cityHashmap));
           System.out.println(contactlist);
       }
+
+
+
+      //count a number of people from each city and each state
       public void count(){
           Map<String,Long> countCity=contactlist.stream()
                   .collect(Collectors.groupingBy(c -> c.getCity(),Collectors.counting()));
@@ -199,15 +222,13 @@ public class Address {
          Map<String,Long> countstate=contactlist.stream()
                  .collect(Collectors.groupingBy(s ->s.getState(),Collectors.counting()));
           System.out.println(countstate + "\n");
+      }
 
-
-     }
-
-    public void askUser() {
+      public void askUser() {
          boolean view=true;
          do{
             System.out.println("enter choice for operation:");
-            System.out.println("1:create address book:\n2:Edit address book:\n3:display all:\n4:Search city in particular book:\n5:find number of records from particular city:\n6:Count person in city and state\n7:exit");
+            System.out.println("1:create address book:\n2:Edit address book:\n3:display all:\n4:Search city in particular book:\n5:find number of records from particular city:\n6:Count person in city and state:\n7:sort the list by name\n8:exit");
             int choose = scanner.nextInt();
 
             switch (choose) {
@@ -317,21 +338,24 @@ public class Address {
                     break;
 
                 case 5:
+
                     address.view();
                     break;
 
                 case 6:
-                    System.out.println("find city");
-                    String city1=scanner.next();
                     address.count();
                     break;
 
                 case 7:
+                    sortByName();
+                    address.toString();
+                    break;
+
+                case 8:
                     view=false;
                     scanner.close();
                     System.out.println("exit address book:");
                     break;
-
 
             }
         }while(view);
