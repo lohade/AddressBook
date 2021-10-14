@@ -38,6 +38,23 @@ public class Address {
           PersonInfo personInfo;
           //Collections.sort(this.contactlist,(personInfo1,personInfo2) ->(personInfo1.getName().compareTo(personInfo2.getName())));
           Collections.sort(this.contactlist,(Comparator.comparing(PersonInfo::getName)));
+          System.out.println("enter choice for sort by:\n1:sort by city:\n2:sort by state:\n3:sort by zip:\n4:exit");
+          int sort_option= scanner.nextInt();
+          switch (sort_option) {
+              case 1:
+                  Collections.sort(this.contactlist, (Comparator.comparing(PersonInfo::getCity)));
+                  break;
+              case 2:
+                  Collections.sort(this.contactlist, (Comparator.comparing(PersonInfo::getState)));
+                  break;
+              case 3:
+                  Collections.sort(this.contactlist, (Comparator.comparing(PersonInfo::getZip)));
+                  break;
+              case 4:
+                  System.out.println("exit by sort");
+                  break;
+          }
+          System.out.println(hashMap);
       }
 
 
@@ -228,7 +245,7 @@ public class Address {
          boolean view=true;
          do{
             System.out.println("enter choice for operation:");
-            System.out.println("1:create address book:\n2:Edit address book:\n3:display all:\n4:Search city in particular book:\n5:find number of records from particular city:\n6:Count person in city and state:\n7:sort the list by name\n8:exit");
+            System.out.println("1:create address book:\n2:Edit address book:\n3:display all:\n4:Search city in particular book:\n5:find number of records from particular city:\n6:Count person in city and state:\n7:sort the list by name,state,city or zip\n8:exit");
             int choose = scanner.nextInt();
 
             switch (choose) {
