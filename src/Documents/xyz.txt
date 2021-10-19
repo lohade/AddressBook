@@ -1,0 +1,1 @@
+personDetail{firstName abhishek, lastName lohade, address bhokardan, city jalna, email adc@gmail.com, zip 1234, phone 1111111111}

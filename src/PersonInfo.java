@@ -8,7 +8,16 @@
     private String state;
     private String phone;
 
-
+     public PersonInfo(String name, String surname, String address, String email, String city, String zip, String state, String phone) {
+         this.name = name;
+         this.surname = surname;
+         this.address = address;
+         this.email = email;
+         this.city = city;
+         this.zip = zip;
+         this.state = state;
+         this.phone = phone;
+     }
 
      public String getName() {
         return name;

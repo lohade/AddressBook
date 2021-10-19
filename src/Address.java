@@ -1,24 +1,28 @@
+import org.json.simple.JSONObject;
+import org.json.simple.JSONArray;
+import org.json.simple.parser.JSONParser;
+
+import java.io.*;
 import java.util.*;
 import java.util.stream.Collectors;
 
 
 public class Address {
-      public ArrayList<PersonInfo>contactlist=new ArrayList<>();
-      public static Scanner scanner=new Scanner(System.in);
-      public static HashMap<String,ArrayList<PersonInfo>> hashMap=new HashMap<>();
-      public static HashMap<String,PersonInfo> cityHashmap=new HashMap<>();
-      static Address address=new Address();
+
+    public ArrayList<PersonInfo>contactlist=new ArrayList<>();
+    public static Scanner scanner=new Scanner(System.in);
+    public static HashMap<String,ArrayList<PersonInfo>> hashMap=new HashMap<>();
+    public static HashMap<String,PersonInfo> cityHashmap=new HashMap<>();
+    static Address address=new Address();
+    FileIO1 fileIO1=new FileIO1();
 
 
-
-      public boolean addContact(PersonInfo details){
-          List<PersonInfo> checkByName=searchByName(details.getName());
-          for (PersonInfo name:checkByName)
-              if (name.equals(details))
-                  return false;
-          contactlist.add(details);
-          return true;
+    public Address(){
+    }
+    public Address(ArrayList<PersonInfo>contactlist){
+          this.contactlist=contactlist;
       }
+
 
       /*
       Create a class searchname in which use a java stream method for filter only name and store in list using lambda function
@@ -42,6 +46,7 @@ public class Address {
           int sort_option= scanner.nextInt();
           switch (sort_option) {
               case 1:
+
                   Collections.sort(this.contactlist, (Comparator.comparing(PersonInfo::getCity)));
                   break;
               case 2:
@@ -60,45 +65,37 @@ public class Address {
 
 
      //function for adding person information
-     public void  addPerson(){
-        PersonInfo personInfo=new PersonInfo();
-        System.out.println("Enter name:");
+     public void  addPerson(Scanner reader){
+
+          System.out.println("Enter name:");
         String name = scanner.next();
-        personInfo.setName(name);
 
         System.out.println("enter surname:");
         String surname= scanner.next();
-        personInfo.setSurname(surname);
 
         System.out.println("Enter email:");
         String email = scanner.next();
-        personInfo.setEmail(email);
 
         System.out.println("Enter address:");
         String address = scanner.next();
-        personInfo.setAddress(address);
 
         System.out.println("Enter phone no:");
         String phone = scanner.next();
-        personInfo.setPhone(phone);
 
-            System.out.println("enter zip:");
+        System.out.println("enter zip:");
         String zip= scanner.next();
-        personInfo.setZip(zip);
 
         System.out.println("Enter state:");
         String state = scanner.next();
-        personInfo.setState(state);
 
         System.out.println("Enter city:");
         String city = scanner.next();
-        personInfo.setCity(city);
 
 
 
-        contactlist.add(personInfo);//adding all details in contactlist array from personinfo
 
-     }
+        contactlist.add(new PersonInfo(name,surname,address,email,city,zip,state,phone));//adding all details in contactlist array from personinfo
+      }
 
      //print function to print all data
      @Override //override is used for override toString method from personinfo class
@@ -270,7 +267,7 @@ public class Address {
                         }
                         switch (option) {
                             case 1:
-                                address.addPerson();
+                                address.addPerson(scanner);
                                 break;
 
                             case 2:
@@ -318,7 +315,7 @@ public class Address {
                                 int option = scanner.nextInt();
                                 switch (option) {
                                     case 1:
-                                        address.addPerson();
+                                        address.addPerson(scanner);
                                         break;
 
                                     case 2:
@@ -365,7 +362,6 @@ public class Address {
 
                 case 7:
                     sortByName();
-                    address.toString();
                     break;
 
                 case 8:
@@ -374,6 +370,9 @@ public class Address {
                     System.out.println("exit address book:");
                     break;
 
+                case 9:
+
+                    System.out.println(FileIO1.readData());
             }
         }while(view);
     }
@@ -381,5 +380,5 @@ public class Address {
     public static void main(String[] args) {
          System.out.println("Welcome to Address book System");
          address.askUser();
-    }
+      }
 }
