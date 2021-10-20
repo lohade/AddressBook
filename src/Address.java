@@ -17,13 +17,6 @@ public class Address {
     FileIO1 fileIO1=new FileIO1();
 
 
-    public Address(){
-    }
-    public Address(ArrayList<PersonInfo>contactlist){
-          this.contactlist=contactlist;
-      }
-
-
       /*
       Create a class searchname in which use a java stream method for filter only name and store in list using lambda function
       */
@@ -61,40 +54,52 @@ public class Address {
           }
           System.out.println(hashMap);
       }
+    
+     public boolean duplicate(String mail){
 
-
+        for(int j=0;j<contactlist.size();j++) {
+            String mail_contact = contactlist.get(j).getEmail();
+            if (mail.equals(mail_contact)) {
+                System.out.println("mail is already available");
+                return true ;
+            }
+        }
+        return false;
+    }
 
      //function for adding person information
-     public void  addPerson(Scanner reader){
-
+     public void  addPerson(){
           System.out.println("Enter name:");
         String name = scanner.next();
 
-        System.out.println("enter surname:");
-        String surname= scanner.next();
 
-        System.out.println("Enter email:");
-        String email = scanner.next();
+            System.out.println("enter surname:");
+            String surname = scanner.next();
 
-        System.out.println("Enter address:");
-        String address = scanner.next();
+            System.out.println("Enter email:");
+            String email = scanner.next();
+         if(address.duplicate(email)){
+             System.out.println("please add new mail");
+             addPerson();
+         }
+         else {
 
-        System.out.println("Enter phone no:");
-        String phone = scanner.next();
+            System.out.println("Enter address:");
+            String address = scanner.next();
 
-        System.out.println("enter zip:");
-        String zip= scanner.next();
+            System.out.println("Enter phone no:");
+            String phone = scanner.next();
 
-        System.out.println("Enter state:");
-        String state = scanner.next();
+            System.out.println("enter zip:");
+            String zip = scanner.next();
 
-        System.out.println("Enter city:");
-        String city = scanner.next();
+            System.out.println("Enter state:");
+            String state = scanner.next();
 
-
-
-
-        contactlist.add(new PersonInfo(name,surname,address,email,city,zip,state,phone));//adding all details in contactlist array from personinfo
+            System.out.println("Enter city:");
+            String city = scanner.next();
+            contactlist.add(new PersonInfo(name, surname, address, email, city, zip, state, phone));
+        }
       }
 
      //print function to print all data
@@ -195,20 +200,7 @@ public class Address {
         }
     }
 
-    public void  duplicate(String email){
-
-         for(int j=0;j<contactlist.size();j++) {
-             String email_contact = contactlist.get(j).getEmail();
-             if (email.equals(email_contact)) {
-                 System.out.println("email is already available");
-             }
-             else{
-                 System.out.println("enter details");
-                 break;
-             }
-         }
-     }
-
+   
 
      //searching specific name from hashmap using searchbyname functon and print data
      public void search() {
@@ -267,7 +259,7 @@ public class Address {
                         }
                         switch (option) {
                             case 1:
-                                address.addPerson(scanner);
+                                address.addPerson();
                                 break;
 
                             case 2:
@@ -315,7 +307,7 @@ public class Address {
                                 int option = scanner.nextInt();
                                 switch (option) {
                                     case 1:
-                                        address.addPerson(scanner);
+                                        address.addPerson();
                                         break;
 
                                     case 2:
